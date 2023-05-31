@@ -9,6 +9,7 @@ const { errorHandler } = require("./meddleware/error")
 const { path } = require("pdfkit")
 const cookieParser = require("cookie-parser")
 const app = express()
+const path = require("path")
 connectedDb()
 app.use(express.json())
 app.use(express.static("public"))
@@ -44,9 +45,11 @@ app.use("/api/auth", require("./routes/authRoutes"))
 app.use("/api/products", require("./routes/productRoutes"))
 
 app.use("*", (req, res) => {
-    res.status(404).json({
-        message: "404 Resource You Are Looking For Is Not Available"
-    })
+   res.sendFile(path.join(__dirname, "build/index.html"))
+   
+    // res.status(404).json({
+    //     message: "404 Resource You Are Looking For Is Not Available"
+    // })
 })
 app.use(errorHandler)
 const PORT = process.env.PORT || 5000
